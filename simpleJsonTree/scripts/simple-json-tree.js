@@ -111,10 +111,10 @@ var simpleJsonTree = (function () {
     var list = $("<ul class='tree-list'></ul>");
     target.append(list);
 
-    var foo = readProperties(data);
+    var properties = readProperties(data);
     var i;
-    for (i = 0; i < foo.length; i += 1) {
-      handleType(foo[i], list);
+    for (i = 0; i < properties.length; i += 1) {
+      handleType(properties[i], list);
     }
     return target;
   };
