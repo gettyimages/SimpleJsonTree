@@ -1,0 +1,70 @@
+﻿ul.tree-list {
+  font-family: Courier New, courier;
+  font-size: 8pt;
+  padding: 0 0 12px;
+}
+
+ul.tree-list label {
+  font-weight: bold;
+  padding: 0 0 0 4px;
+}
+
+.tree-branch label, .tree-branch span.tree-leaf-value {
+  position: relative;
+  bottom: 4px;
+}
+
+.tree-leaf-key {
+  font-weight: normal;
+}
+
+li.tree-list-item {
+  list-style: none;
+}
+
+li.tree-item-closed ul {
+  display: none;
+}
+
+li.tree-item-open ul.tree-list {
+  padding: 0 0 0 20px;
+}
+
+li.tree-branch span.button {
+  background-attachment: scroll;
+  background-image: url("/images/simple-json-tree-plus-minus.png");
+  background-repeat: no-repeat;
+  cursor: pointer;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+}
+
+li.tree-item-closed > span.button {
+  background-position: 0 0;
+}
+
+li.tree-item-open > span.button {
+  background-position: 0 -16px;
+}
+
+li.tree-branch span.icon, li.tree-leaf span.icon {
+  background-attachment: scroll;
+  background-image: url("/images/simple-json-tree-objects.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+}
+
+li.tree-branch > span.icon.object, li.tree-leaf > span.icon.object {
+  background-position: 0 0;
+}
+
+li.tree-branch > span.icon.property, li.tree-leaf > span.icon.property {
+  background-position: 0 -16px;
+}
+
+li.tree-branch > span.icon.array, li.tree-leaf > span.icon.array {
+  background-position: 0 -32px;
+}

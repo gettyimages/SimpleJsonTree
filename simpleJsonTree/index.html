@@ -1,0 +1,20 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+	  <title>simple test</title>
+    <link rel="stylesheet" href="/content/simple-json-tree.css" />
+	</head>
+	<body>
+	  <div id="target"></div>
+	</body>
+	<script type="text/javascript" src="/scripts/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="/scripts/js-extensions.js"></script>
+  <script type="text/javascript" src="/scripts/simple-json-tree.js"></script>
+  <script type="text/javascript" src="/scripts/sampleData.js"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#target").jsonTree(countriesResponse);
+    });
+  </script>
+</html>
