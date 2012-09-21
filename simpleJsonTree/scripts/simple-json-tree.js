@@ -96,9 +96,10 @@ var simpleJsonTree = (function () {
 
   var readProperties = function (object) {
     var properties = [];
-    if (typeof object === "string") {
-      properties.push({ key: "string", value: object });
-    } else {
+    if (typeof object !== "object") {
+      properties.push({ key: typeof object, value: object });
+    }
+    else {
       for (var key in object) {
         value = object[key];
         properties.push({ key: key, value: value });

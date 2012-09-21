@@ -42,7 +42,21 @@
     <Content Include="scripts\js-extensions.js" />
     <Content Include="scripts\sampleData.js" />
     <Content Include="scripts\simple-json-tree.js" />
+    <Content Include="tests\lib\jasmine-html.js" />
+    <Content Include="tests\lib\jasmine-jquery.js" />
+    <Content Include="tests\lib\jasmine.css" />
+    <Content Include="tests\lib\jasmine.js" />
+    <Content Include="tests\lib\jquery-1.7.2.js" />
+    <Content Include="tests\lib\json2.js" />
+    <Content Include="tests\lib\spec-runner-include.js" />
+    <Content Include="tests\SpecRunner.html" />
+    <Content Include="tests\spec\simple-json-tree-spec.js" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="tests\lib\spec" />
+    <None Include="tests\lib\version.rb" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
