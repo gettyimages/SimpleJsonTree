@@ -22,7 +22,7 @@ var simpleJsonTree = (function () {
     }
   };
 
-  var writeObjectNode = function (object, target) {
+  var writeObjectNode = function (object, target, index) {
     var listItem = createListItem();
 
     if (object.value !== null) {
@@ -30,6 +30,7 @@ var simpleJsonTree = (function () {
       listItem.addClass("tree-item-closed");
       listItem.append(createButton());
       listItem.append(createIcon(object));
+      writeArrayElementIndex(listItem, index);
       listItem.append("<label>" + object.key + "</label>");
       render(object.value, listItem);
     } else {
@@ -42,7 +43,7 @@ var simpleJsonTree = (function () {
     target.append(listItem);
   };
 
-  var writeArrayNodes = function (arrayKvp, target) {
+  var writeArrayNodes = function (arrayKvp, target, index) {
     var i;
     var listItem = createListItem();
 
@@ -55,30 +56,43 @@ var simpleJsonTree = (function () {
     }
 
     listItem.append(createIcon(arrayKvp));
-    listItem.append("<label>" + arrayKvp.key + " (" + arrayKvp.value.length + ")</label>");
+    writeArrayElementIndex(listItem, index);
+    listItem.append("<label>" + arrayKvp.key + " (" + arrayKvp.value.length + " items)</label>");
     target.append(listItem);
 
     for (i = 0; i < arrayKvp.value.length; i += 1) {
-      var arrayMemberElement = createListItem();
-      var button = createButton();
-      arrayMemberElement.append(button);
-      arrayMemberElement.append($("<label>[" + i + "]</label>"));
-      arrayMemberElement.addClass("tree-branch");
-      arrayMemberElement.addClass("tree-item-closed");
+      if (typeof arrayKvp.value[i] === "object") {
+        var arrayMemberElement = createListItem();
+        var button = createButton();
+        arrayMemberElement.append(button);
+        arrayMemberElement.append(createIcon({ key: "", value: arrayKvp.value[i] }));
+        arrayMemberElement.append($("<label>[" + i + "]</label>"));
+        arrayMemberElement.addClass("tree-branch");
+        arrayMemberElement.addClass("tree-item-closed");
 
-      var arrayMemberContainer = $("<ul class='tree-list'></ul>");
-      arrayMemberContainer.append(arrayMemberElement);
-      listItem.append(arrayMemberContainer);
-      render(arrayKvp.value[i], arrayMemberElement, i);
+        var arrayMemberContainer = $("<ul class='tree-list'></ul>");
+        arrayMemberContainer.append(arrayMemberElement);
+        listItem.append(arrayMemberContainer);
+        render(arrayKvp.value[i], arrayMemberElement);
+      } else {
+        render(arrayKvp.value[i], listItem, i);
+      }
     }
   };
 
-  var writeLeafNode = function (kvpObject, target) {
+  var writeLeafNode = function (kvpObject, target, index) {
     var listItem = createListItem();
     listItem.addClass("tree-leaf");
     listItem.append(createIcon(kvpObject));
+    writeArrayElementIndex(listItem, index);
     listItem.append("<label class='tree-leaf-key'>" + kvpObject.key + "<span> : </span></label><span class='tree-leaf-value'>" + formatValue(kvpObject.value) + "</span>");
     target.append(listItem);
+  };
+
+  var writeArrayElementIndex = function (target, index) {
+    if (index !== undefined && index !== null) {
+      target.append($("<label>[" + index + "]</label>"));
+    }
   };
 
   var formatValue = function (primitive) {
@@ -96,11 +110,16 @@ var simpleJsonTree = (function () {
 
   var readProperties = function (object) {
     var properties = [];
+    var key;
+
     if (typeof object !== "object") {
-      properties.push({ key: typeof object, value: object });
+      properties.push({ key: "", value: object });
+    }
+    else if (Array.isArray(object)) {
+      properties.push({ key: "", value: object });
     }
     else {
-      for (var key in object) {
+      for (key in object) {
         value = object[key];
         properties.push({ key: key, value: value });
       }
@@ -108,26 +127,26 @@ var simpleJsonTree = (function () {
     return properties;
   };
 
-  var render = function (data, target) {
-    var list = $("<ul class='tree-list'></ul>");
+  var render = function (data, target, index) {
+    var list, properties, i;
+    list = $("<ul class='tree-list'></ul>");
     target.append(list);
+    properties = readProperties(data);
 
-    var properties = readProperties(data);
-    var i;
     for (i = 0; i < properties.length; i += 1) {
-      handleType(properties[i], list);
+      handleType(properties[i], list, index);
     }
     return target;
   };
 
-  var handleType = function (object, target) {
+  var handleType = function (object, target, index) {
     if (Array.isArray(object.value)) {
-      writeArrayNodes(object, target);
+      writeArrayNodes(object, target, index);
     }
     else if (typeof object.value === "object") {
-      writeObjectNode(object, target);
+      writeObjectNode(object, target, index);
     } else {
-      writeLeafNode(object, target);
+      writeLeafNode(object, target, index);
     }
   };
 

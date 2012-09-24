@@ -68,3 +68,7 @@ li.tree-branch > span.icon.property, li.tree-leaf > span.icon.property {
 li.tree-branch > span.icon.array, li.tree-leaf > span.icon.array {
   background-position: 0 -32px;
 }
+
+span.icon.property {
+  margin: 0 0 0 16px;
+}
